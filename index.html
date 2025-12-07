@@ -4,12 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="script.js" defer></script>
+    <link rel="stylesheet" href="style.css">
     <title>Calculator</title>
 </head>
 <body>
     <div id="calculator">
-        <div id="display"></div>
-        <button class="clear">Clear</button>
+        <div class="display Small"></div>
+        <div class="display Big"></div>
+        <div class="section">
+            <button class="clear">Clear</button>
+        </div>
         <div class="section one">
             <button>1</button>
             <button>2</button>
@@ -29,9 +33,9 @@
             <button class="operator">*</button>
         </div>
         <div class="section fourth">
-            <button class="erase">Erase</button>
+            <button class="erase">Esc</button>
             <button>0</button>
-            <button>=</button>
+            <button class="operator">=</button>
             <button class="operator">/</button>
         </div>
     </div>

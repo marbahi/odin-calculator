@@ -13,3 +13,7 @@ function multiply(fNum, LNum) {
 function divide(fNum, LNum) {
     return fNum / LNum;
 }
+
+let firstNumber;
+let lastNUmber;
+let operator;
