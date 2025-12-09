@@ -17,6 +17,8 @@ function divide(fNum, LNum) {
 let firstNumber;
 let lastNumber;
 let operator;
+let clickedValues = [];
+let number;
 
 function operate(firstNumber, lastNumber, operator) {
     if(operator === "+") {
@@ -29,3 +31,16 @@ function operate(firstNumber, lastNumber, operator) {
         divide(firstNumber, lastNumber);
     }
 }
+
+const buttons = document.querySelectorAll('.btn');
+
+buttons.forEach(button => {
+    button.addEventListener('click', function() {
+        clickedValues.push(this.value); // 'this' refers to the clicked button
+        console.log("Current clicked values:", clickedValues);
+        number = 0;
+        number = clickedValues.join("");
+        document.querySelector(".display.small").innerHTML = number;
+        document.querySelector(".display.big").innerHTML = number;
+    });
+});
