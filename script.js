@@ -36,11 +36,23 @@ const buttons = document.querySelectorAll('.btn');
 
 buttons.forEach(button => {
     button.addEventListener('click', function() {
-        clickedValues.push(this.value); // 'this' refers to the clicked button
-        console.log("Current clicked values:", clickedValues);
-        number = 0;
-        number = clickedValues.join("");
-        document.querySelector(".display.small").innerHTML = number;
-        document.querySelector(".display.big").innerHTML = number;
+        if(this.value === "clear") {
+            clickedValues = [];
+            document.querySelector(".display.small").innerHTML = "";
+            document.querySelector(".display.big").innerHTML = "";
+        } else if(this.value === "erase") {
+            clickedValues.pop();
+            number = 0;
+            number = clickedValues.join("");
+            document.querySelector(".display.small").innerHTML = number;
+        } else if(this.value === "=") {
+            document.querySelector(".display.big").innerHTML = number;
+        } else {
+            clickedValues.push(this.value); // 'this' refers to the clicked button
+            console.log("Current clicked values:", clickedValues);
+            number = 0;
+            number = clickedValues.join("");
+            document.querySelector(".display.small").innerHTML = number;
+        }
     });
 });
