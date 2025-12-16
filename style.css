@@ -47,6 +47,7 @@ body {
     justify-content: right;
     align-items: center;
     font-weight: bold;
+    word-wrap: break-word;
 }
 
 .section {

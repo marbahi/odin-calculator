@@ -16,7 +16,9 @@ function divide(fNum, LNum) {
 
 let firstNumber = null;
 let lastNumber = null;
+let nfNumber;
 let resultNumber = null;
+let resultString;
 let operator = null
 let clickedValues = [];
 let number;
@@ -34,7 +36,18 @@ function operate(fNumber, lNumber, operator) {
     } else if(operator === "*") {
         return multiply(fNumber, lNumber);
     } else if(operator === "/") {
-        return divide(fNumber, lNumber);
+        if(fNumber === 0 || lNumber === 0) {
+            document.querySelector(".display.small").innerHTML = `Can't divide 0`;
+            document.querySelector(".display.big").innerHTML = 'Error';
+            clickedValues = [];
+            firstNumber = null;
+            lastNumber = null;
+            resultNumber = null;
+            nfNumber = null;
+            start = 0;
+        } else {
+            return divide(fNumber, lNumber);
+        }
     }
 }
 
@@ -47,6 +60,7 @@ buttons.forEach(button => {
             firstNumber = null;
             lastNumber = null;
             resultNumber = null;
+            nfNumber = null;
             start = 0;
             document.querySelector(".display.small").innerHTML = "";
             document.querySelector(".display.big").innerHTML = "";
@@ -56,46 +70,52 @@ buttons.forEach(button => {
             number = clickedValues.join("");
             document.querySelector(".display.big").innerHTML = number;
         } else if(this.value === "+" || this.value === "-" || this.value === "*" || this.value === "/") {
-            console.log("start? ", start);
-            if(start === 0) {
-                operator = this.value;
-                firstOperator = this.value;
-                secondOperator = this.value;
-                start = 1;
-            } else {
-                secondOperator = this.value;
-                if(firstOperator !== secondOperator) {
-                    operator = firstOperator;
+            if(clickedValues.length !== 0 || firstNumber !== null) {
+                console.log("start? ", start);
+                if(start === 0) {
+                    operator = this.value;
+                    firstOperator = this.value;
+                    secondOperator = this.value;
+                    start = 1;
                 } else {
-                    operator = secondOperator;
+                    secondOperator = this.value;
+                    if(firstOperator !== secondOperator) {
+                        operator = firstOperator;
+                    } else {
+                        operator = secondOperator;
+                    }
                 }
-            }
-            console.log("First Operator:", firstOperator);
-            console.log("Second Operator:", secondOperator);
-            console.log("Result Operator:", operator);
+                console.log("First Operator:", firstOperator);
+                console.log("Second Operator:", secondOperator);
+                console.log("Result Operator:", operator);
             
-            if(firstNumber === null) {
-                firstNumber = parseInt(clickedValues.join(""));
-                console.log("First Number:", firstNumber);
-                clickedValues = [];
-                document.querySelector(".display.small").innerHTML = `${firstNumber} ${operator}`;
-                document.querySelector(".display.big").innerHTML = "";
-            } else if(lastNumber === null) {
-                lastNumber = parseInt(clickedValues.join(""));
-                console.log("Second Number:", lastNumber);
-                clickedValues = [];
-                resultNumber = operate(firstNumber, lastNumber, operator);
-                console.log("Result: ", resultNumber);
-                document.querySelector(".display.small").innerHTML = `${firstNumber} ${operator} ${lastNumber}`;
-                document.querySelector(".display.big").innerHTML = resultNumber;
-                firstNumber = resultNumber;
-                resultNumber = null;
-                lastNumber = null;
-            } else if(lastNumber !== null) {
-                document.querySelector(".display.small").innerHTML = `${firstNumber} ${secondOperator}`
-                lastNumber = null;
+                if(firstNumber === null) {
+                    firstNumber = parseInt(clickedValues.join(""));
+                    console.log("First Number:", firstNumber);
+                    clickedValues = [];
+                    document.querySelector(".display.small").innerHTML = `${firstNumber} ${operator}`;
+                    document.querySelector(".display.big").innerHTML = "";
+                } else if(lastNumber === null) {
+                    resultString - clickedValues.join("");
+                    lastNumber = parseInt(clickedValues.join(""));
+                    console.log("Second Number:", lastNumber);
+                    clickedValues = [];
+                    nfNumber = operate(firstNumber, lastNumber, operator);
+                    console.log("Result not fixed: ", nfNumber);
+                    resultNumber = (Number.isInteger(nfNumber)) ? parseInt(nfNumber) : nfNumber.toFixed(8);
+                    console.log("Result: ", resultNumber);
+                    document.querySelector(".display.small").innerHTML = `${firstNumber} ${operator} ${lastNumber}`;
+                    document.querySelector(".display.big").innerHTML = resultNumber;
+                    firstNumber = resultNumber;
+                    nfNumber = null;
+                    resultNumber = null;
+                    lastNumber = null;
+                } else if(lastNumber !== null) {
+                    document.querySelector(".display.small").innerHTML = `${firstNumber} ${secondOperator}`
+                    lastNumber = null;
+                }
+                firstOperator = secondOperator;
             }
-            firstOperator = secondOperator;
         } else if(this.value === "=") {
             console.log("start? ", start);
             console.log("First Operator:", firstOperator);
@@ -108,6 +128,7 @@ buttons.forEach(button => {
                 firstNumber = null;
                 lastNumber = null;
                 resultNumber = null;
+                nfNumber = null;
                 start = 0;
             } else if(operator === null) {
                 document.querySelector(".display.small").innerHTML = `Input the operator first!!`;
@@ -116,6 +137,7 @@ buttons.forEach(button => {
                 firstNumber = null;
                 lastNumber = null;
                 resultNumber = null;
+                nfNumber = null;
                 start = 0;
             } else if(clickedValues.length === 0) {
                 document.querySelector(".display.small").innerHTML = `Input the number first!!`;
@@ -124,6 +146,7 @@ buttons.forEach(button => {
                 firstNumber = null;
                 lastNumber = null;
                 resultNumber = null;
+                nfNumber = null;
                 start = 0;
             }else {
                 if(firstOperator !== secondOperator) {
@@ -135,21 +158,27 @@ buttons.forEach(button => {
                 console.log("Second Number:", lastNumber);
                 clickedValues = [];
                 document.querySelector(".display.small").innerHTML = `${firstNumber} ${operator} ${lastNumber}`;
-                resultNumber = operate(firstNumber, lastNumber, operator);
+                nfNumber = operate(firstNumber, lastNumber, operator);
+                console.log("Result not fixed: ", nfNumber);
+                resultNumber = (Number.isInteger(nfNumber)) ? parseInt(nfNumber) : nfNumber.toFixed(8);
                 console.log("Result: ", resultNumber);
                 document.querySelector(".display.big").innerHTML = resultNumber;
                 firstNumber = resultNumber;
+                nfNumber = null;
                 resultNumber = null;
                 operator = null;
                 start = 0;
             }
         } else {
             if(operator === null && firstNumber !== null) {
-                document.querySelector(".display.small").innerHTML = `Input the operator first!!`;
-                document.querySelector(".display.big").innerHTML = 'Error';
+                // document.querySelector(".display.small").innerHTML = `Input the operator first!!`;
+                // document.querySelector(".display.big").innerHTML = 'Error';
+                document.querySelector(".display.small").innerHTML = "";
+                document.querySelector(".display.big").innerHTML = "";
                 clickedValues = [];
                 firstNumber = null;
                 lastNumber = null;
+                nfNumber = null;
                 resultNumber = null;
                 start = 0;
             }
